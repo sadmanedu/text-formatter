@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Formatter for MS Word - BN & EN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">W</div>
+                    <div>
+                        <h1>Text Formatter for MS Word</h1>
+                        <p>Markdown → Word-Ready Rich Text • বাংলা ও English সাপোর্ট</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="loadSample()">📄 Load Sample</button>
+                    <button class="btn btn-secondary" onclick="clearAll()">🗑️ Clear</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="info-banner">
+            <div class="info-icon">💡</div>
+            <div class="info-text">
+                <strong>How it works:</strong> Paste your markdown-style text on the left. It will auto-format to rich text on the right. Then click <b>Copy Formatted</b> and paste directly into MS Word - bold, bullets, tables, headings will appear automatically!
+                <br>
+                <span class="bn">কিভাবে ব্যবহার করবেন:</span> বাম পাশে আপনার লেখা পেস্ট করুন। ডান পাশে ফরম্যাটেড আউটপুট দেখতে পাবেন। <b>Copy Formatted</b> বাটনে ক্লিক করে MS Word এ পেস্ট করুন - Bold, Bullet, Table সব অটোমেটিক চলে আসবে!
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <div class="format-hints">
+                <span class="hint"><code># Heading</code> → Heading</span>
+                <span class="hint"><code>**bold**</code> → <b>Bold</b></span>
+                <span class="hint"><code>__underline__</code> → <u>Underline</u></span>
+                <span class="hint"><code>*italic*</code> → <i>Italic</i></span>
+                <span class="hint"><code>- bullet</code> → Bullet</span>
+                <span class="hint"><code>1. list</code> → Numbered</span>
+                <span class="hint"><code>| table |</code> → Table</span>
+            </div>
+            <div class="options">
+                <label>
+                    Font:
+                    <select id="fontFamily" onchange="reformat()">
+                        <option value="'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', Arial, sans-serif" selected>Noto Sans Bengali (Recommended)</option>
+                        <option value="'SolaimanLipi', 'Noto Sans Bengali', Arial, sans-serif">SolaimanLipi</option>
+                        <option value="Arial, 'Noto Sans Bengali', sans-serif">Arial</option>
+                        <option value="'Times New Roman', 'Noto Sans Bengali', serif">Times New Roman</option>
+                        <option value="'Inter', Arial, sans-serif">Inter (English)</option>
+                    </select>
+                </label>
+                <label>
+                    Base Size:
+                    <select id="baseSize" onchange="reformat()">
+                        <option value="11">11pt</option>
+                        <option value="12" selected>12pt</option>
+                        <option value="13">13pt</option>
+                        <option value="14">14pt</option>
+                    </select>
+                </label>
+                <label>
+                    Line Height:
+                    <select id="lineHeight" onchange="reformat()">
+                        <option value="1.3">1.3</option>
+                        <option value="1.5" selected>1.5</option>
+                        <option value="1.6">1.6</option>
+                        <option value="2.0">2.0</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="panel input-panel">
+                <div class="panel-header">
+                    <h3>📝 Input - Raw Text (Markdown Style)</h3>
+                    <span class="char-count" id="charCount">0 chars</span>
+                </div>
+                <textarea id="input" placeholder="এখানে আপনার লেখা পেস্ট করুন...
+
+Example:
+# Heading 1
+## Heading 2
+This is **bold text** and __underlined text__ and *italic*
+
+- Bullet point 1
+- Bullet point 2
+
+1. Numbered list
+2. Another item
+
+| Column 1 | Column 2 |
+|----------|----------|
+| Data 1   | Data 2   |
+
+```
+Family tree or code block
+```
+
+---"></textarea>
+                <div class="quick-actions">
+                    <button class="mini-btn" onclick="insertAtCursor('# ', '')">H1</button>
+                    <button class="mini-btn" onclick="insertAtCursor('## ', '')">H2</button>
+                    <button class="mini-btn" onclick="insertAtCursor('**', '**')"><b>B</b></button>
+                    <button class="mini-btn" onclick="insertAtCursor('__', '__')"><u>U</u></button>
+                    <button class="mini-btn" onclick="insertAtCursor('*', '*')"><i>I</i></button>
+                    <button class="mini-btn" onclick="insertAtCursor('- ', '')">• List</button>
+                    <button class="mini-btn" onclick="insertAtCursor('1. ', '')">1. List</button>
+                    <button class="mini-btn" onclick="insertAtCursor('| Col1 | Col2 |\n|------|------|\n| ', ' | |')">Table</button>
+                </div>
+            </div>
+
+            <div class="panel preview-panel">
+                <div class="panel-header">
+                    <h3>👁️ Preview - Word Ready (Copy this)</h3>
+                    <div class="preview-actions">
+                        <button class="btn btn-primary" onclick="copyFormatted()">📋 Copy Formatted for Word</button>
+                        <button class="btn btn-outline" onclick="copyHTML()">Copy HTML</button>
+                    </div>
+                </div>
+                <div id="preview" class="preview-content" contenteditable="true">
+                    <p style="color:#888; font-style:italic;">Formatted preview will appear here...<br>ফরম্যাটেড লেখা এখানে দেখা যাবে...</p>
+                </div>
+                <div class="preview-footer">
+                    <button class="btn btn-secondary" onclick="downloadAsDoc()">⬇️ Download as .doc (Word)</button>
+                    <button class="btn btn-secondary" onclick="downloadAsHTML()">⬇️ Download as .html</button>
+                    <span class="tip">Tip: After copying, paste in Word with Ctrl+V. For best results, use 'Keep Source Formatting'.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="guide">
+            <h3>📖 Supported Formatting Guide</h3>
+            <div class="guide-grid">
+                <div class="guide-item">
+                    <h4>Headings</h4>
+                    <code># Title<br>## Subtitle<br>### Section</code>
+                </div>
+                <div class="guide-item">
+                    <h4>Text Styles</h4>
+                    <code>**bold**<br>__underline__<br>*italic*<br>~~strike~~<br>`code`</code>
+                </div>
+                <div class="guide-item">
+                    <h4>Lists</h4>
+                    <code>- Bullet item<br>  - Nested bullet<br>1. Numbered<br>2. Second item</code>
+                </div>
+                <div class="guide-item">
+                    <h4>Tables & More</h4>
+                    <code>| H1 | H2 |<br>|----|----|<br>| A  | B  |<br><br>--- (horizontal line)<br>```code block```</code>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Made for seamless MS Word pasting • Supports Bengali & English • No data leaves your browser</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
