@@ -93,7 +93,7 @@ const sampleText = `# ফাতেমীয়দের পরিচয় এ�
 - ভূমধ্যসাগরীয় বাণিজ্য ব্যবস্থায় নতুন মাত্রা যোগ হয়    
 `;
 
-let currentFontFamily = "'Noto Sans Bengali', 'SolaimanLipi', 'Kalpurush', Arial, sans-serif";
+let currentFontFamily = "'Nirmala UI', 'Noto Sans Bengali', 'SolaimanLipi', Arial, sans-serif";
 let currentBaseSize = "12";
 let currentLineHeight = "1.5";
 

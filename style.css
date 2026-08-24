@@ -13,7 +13,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: 'Inter', 'Noto Sans Bengali', Arial, sans-serif;
+    font-family: 'Nirmala UI', 'Noto Sans Bengali', 'Inter', Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
@@ -197,7 +197,7 @@ body {
     width: 100%;
     border: none;
     padding: 16px;
-    font-family: 'Noto Sans Bengali', 'Courier New', monospace;
+    font-family: 'Nirmala UI', 'Noto Sans Bengali', 'Courier New', monospace;
     font-size: 14px;
     line-height: 1.7;
     resize: none;
@@ -239,7 +239,7 @@ body {
     overflow-y: auto;
     outline: none;
     background: white;
-    font-family: 'Noto Sans Bengali', Arial, sans-serif;
+    font-family: 'Nirmala UI', 'Noto Sans Bengali', Arial, sans-serif;
     min-height: 500px;
     line-height: 1.6;
 }
